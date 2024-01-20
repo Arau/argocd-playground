@@ -14,9 +14,3 @@ spec:
     repoURL: 'https://github.com/Arau/argocd-playground.git'
     path: app-deployments/microsvc1
     targetRevision: deployed
-syncPolicy:
-  automated:
-    selfHeal: true
-    prune: true
-  syncOptions:
-    - CreateNamespace=true
