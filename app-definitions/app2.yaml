@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guestbook3
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: app2
+    server: 'https://kubernetes.default.svc'
+  project: default
+  source:
+		repoURL: 'https://github.com/Arau/argocd-playground.git'
+		path: app-deployments/microsvc2
+		targetRevision: deployed
+syncPolicy:
+  automated:
+    selfHeal: true
+  syncOptions:
+    - CreateNamespace=true
