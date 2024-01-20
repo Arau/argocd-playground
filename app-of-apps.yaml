@@ -12,5 +12,5 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/Arau/argocd-playground.git'
-    path: app-definitions/
+    path: app-definitions
     targetRevision: deployed
