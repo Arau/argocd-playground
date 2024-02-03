@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: salt-minion
+  namespace: salt
+  labels:
+    k8s-app: salt-minion
+spec:
+  selector:
+    matchLabels:
+      name: salt-minion
+  template:
+    metadata:
+      labels:
+        name: salt-minion
+    spec:
+      hostNetwork: true
+      containers:
+      - name: minion
+        image: arau/salt-minion:0.2
+        resources:
+          limits:
+            memory: 100Mi
+          requests:
+            cpu: 50m
+            memory: 50Mi
+        volumeMounts:
+        - name: minion-conf
+          mountPath: /etc/salt/minion.d/
+        - name: pki
+          mountPath: /etc/salt/pki/minion/
+      volumes:
+      - name: minion-conf
+        configMap:
+          name: salt-minion-conf
+      - name: pki
+        hostPath:
+          path: /etc/salt/pki/minion/

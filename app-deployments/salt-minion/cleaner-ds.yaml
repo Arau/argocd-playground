@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: clean-pki-salt-minion
+  namespace: salt
+spec:
+  selector:
+    matchLabels:
+      name: salt-cleaner
+  template:
+    metadata:
+      labels:
+        name: salt-cleaner
+    spec:
+      containers:
+      - name: minion
+        image: ubuntu:jammy-20240111
+        command: [ "/bin/bash" ]
+        args:
+        - "-c"
+        - "rm -rf /etc/salt/pki/minion/* && echo 'Removed contents of /etc/salt/pki/minion/'"
+        volumeMounts:
+        - name: pki
+          mountPath: /etc/salt/pki/minion/
+      volumes:
+      - name: pki
+        hostPath:
+          path: /etc/salt/pki/minion/
+

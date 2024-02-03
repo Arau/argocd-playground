@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: salt-minion-conf
+  namespace: salt
+data:
+  salt-master.conf: |
+    master: 172.234.20.29 
+
+  minion.conf: |
+    hash_type: sha256
+    verify_master_pubkey_sign: False
+    autosign_grains:
+      - uuid
+      - id
+    log_level: info
+    grains:
+      systemd.scope: false
+    keysize: 2048
+    random_reauth_delay: 120
+    recon_default: 1000
+    recon_max: 30000
+    recon_randomize: true
+    mine_enabled: True
+    mine_functions:
+      fqdn:
+        mine_function: network.get_fqdn
+      fqdn_ip4:
+        key: fqdn_ip4
+        mine_function: grains.get
+      ips_all:
+        mine_function: network.ip_addrs
+      ips_eth0:
+        interface: eth0
+        mine_function: network.ip_addrs
+      ips_private:
+        interface: eth0
+        mine_function: network.ip_addrs
+        type: private
+      ips_public:
+        mine_function: network.ip_addrs
+        type: public
+      lo_ip4:
+        interface: lo
+        mine_function: network.ipaddrs
+      lo_ip6:
+        interface: lo
+        mine_function: network.ipaddrs6
+
+    mine_interval: 5
