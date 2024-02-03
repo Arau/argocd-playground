@@ -17,9 +17,20 @@ spec:
       hostNetwork: true
       containers:
       - name: minion
-        image: arau/salt-minion:0.2
+        image: arau/salt-minion:0.3
+        args:
+          - --minion-id
+          - "$(PREFIX_MINION_NAME)-$(NODE_NAME)"
+        env:
+        - name: PREFIX_MINION_NAME
+          value: cluster-ferran-1 # Using the kpp cluster name
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
         resources:
           limits:
+            cpu: 1
             memory: 100Mi
           requests:
             cpu: 50m
