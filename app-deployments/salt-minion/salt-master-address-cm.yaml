@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: salt-master-address
+  namespace: salt
+data:
+  SALT_MASTER_ADDRESS: 172.234.20.29 

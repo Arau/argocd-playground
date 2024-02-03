@@ -4,9 +4,6 @@ metadata:
   name: salt-minion-conf
   namespace: salt
 data:
-  salt-master.conf: |
-    master: 172.234.20.29 
-
   minion.conf: |
     hash_type: sha256
     verify_master_pubkey_sign: False

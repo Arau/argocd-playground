@@ -17,10 +17,10 @@ spec:
       hostNetwork: true
       containers:
       - name: minion
-        image: arau/salt-minion:0.3
+        image: arau/salt-minion:0.7
         args:
-          - --minion-id
-          - "$(PREFIX_MINION_NAME)-$(NODE_NAME)"
+          - --minion-id="$(PREFIX_MINION_NAME)-$(NODE_NAME)"
+          - --salt-master-address="$(SALT_MASTER_ADDRESS)"
         env:
         - name: PREFIX_MINION_NAME
           value: cluster-ferran-1 # Using the kpp cluster name
@@ -28,6 +28,11 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
+        - name: SALT_MASTER_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: salt-master-address
+              key: SALT_MASTER_ADDRESS
         resources:
           limits:
             cpu: 1
